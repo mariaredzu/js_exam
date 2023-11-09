@@ -8,7 +8,7 @@ function F31() {
         // We get each value of "to_verify" wich corresponds with the lines of the sudoku and run them through the function "F21" to check if it returns true or false
         if (!F21(to_verify[i])) {
             // If the answer is false, we push a string on the array "errors" so we can get a warning latter
-            errors.push("Line " + (i + 1) + " is incorrect: " + to_verify[i].join(" ") + "\n");
+            errors.push("Line " + (i + 1) + " is incorrect: " + to_verify[i].join(" "));
         }
     }
 }
@@ -26,7 +26,7 @@ function F32() {
         // We get each value of "to_verify" wich corresponds with the columns of the sudoku and run them through the function "F21" to check if it returns true or false
         if (!F21(column)) {
             // If the answer is false, we push a string on the array "errors" so we can get a warning latter
-            errors.push("Column " + (j + 1) + " is incorrect: " + column.join(" ") + "\n");
+            errors.push("Column " + (j + 1) + " is incorrect: " + column.join(" "));
         }
     }
 }
@@ -47,7 +47,7 @@ function F33() {
         // We get each value of "to_verify" wich corresponds with the regions of the sudoku and run them through the function "F21" to check if it returns true or false
         if (!F21(regionValues)) {
             // If the answer is false, we push a string on the array "errors" so we can get a warning latter
-            errors.push("Region " + (region + 1) + " is incorrect: " + regionValues.join(" ") + "\n");
+            errors.push("Region " + (region + 1) + " is incorrect: " + regionValues.join(" "));
         }
     }
 }
@@ -55,10 +55,36 @@ function F33() {
 // This function warns the user if there is any error found on the sudoku
 function err() {
     // This "if" checks if "errors" has a length higher than 0, 
-    // if the answer is false, it does nothing, if it is true, it sends an alert with a list of the errors and send them through the console too
+    // if the answer is false, it says that "The table is correct", if it is true, it shows the errors
     if(errors.length > 0) {
-        alert("List of errors:\n" + errors);
+        var arrTFil = [];
+        for(var i = 0; i < errors.length; i++) {
+            var newArr = [];
+            var firstPart = errors[i].split(':');
+            newArr.push(firstPart[0] + ":")
+            var secondPart = firstPart[1].split(' ');
+            for(var d = 1; d < 10; d++) {
+                newArr.push(secondPart[d]);
+            }
+            arrTFil.push(newArr);
+        }
+
+        var tableHTML = "<table class=\" m-5 \">";
+        for (var i = 0; i < arrTFil.length; i++) {
+            tableHTML += "<tr>";
+            for (var j = 0; j < 10; j++) {
+                tableHTML += "<td class=\" p-3 pe-4 ps-4 border border-dark\">" + arrTFil[i][j] + "</td>";
+            }
+            tableHTML += "</tr>";
+        }
+        tableHTML += "</table>";
+        document.body.innerHTML += tableHTML;
+
         console.log(errors);
+    } else {
+
+        elmHTML = "<p class=\" m-5 \">The table is correct.</p>"
+        document.body.innerHTML += elmHTML;
     }
 }
 
